@@ -1,5 +1,29 @@
-.widget-container {
-    display:flex;
-    justify-content:center;
-    vertical-align: middle;
+.widget-container_default {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transition: top 0.3s ease;
+}
+
+.widget-container_clicked{
+    position: relative;
+    top: 30%;
+    left: 50%;
+    transition: top 0.3s ease;
+}
+
+.widget_text {
+    margin-top: 1%;
+    animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.widget_list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }

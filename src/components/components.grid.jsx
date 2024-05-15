@@ -15,13 +15,13 @@ export default class Grid extends React.Component {
         return (
             <Container fluid>
                 <Row className="first_row">
-                    <Col className="red"><Widgets/></Col>
-                    <Col className="blue"><Widgets/></Col>
+                    <Col className="lightgray"><Widgets/></Col>
+                    <Col className="mediumgray"><Widgets/></Col>
                 </Row>
                 <Row className="second_row">
-                    <Col className="red"><Widgets/></Col>
-                    <Col className="blue"><Widgets/></Col>
-                    <Col className="green"><Widgets/></Col>
+                    <Col className="lightgray"><Widgets/></Col>
+                    <Col className="mediumgray"><Widgets/></Col>
+                    <Col className="lightgray"><Widgets/></Col>
                 </Row>
             </Container>
         );

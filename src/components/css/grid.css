@@ -6,14 +6,10 @@
     height: 25vh;
 }
 
-.green {
-    background-color: green;
+.mediumgray {
+    background-color: #dce3df;
 }
 
-.red {
-    background-color: red;
-}
-
-.blue {
-    background-color: blue;
+.lightgray {
+    background-color: #f2f7f5;
 }
