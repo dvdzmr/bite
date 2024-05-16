@@ -12,13 +12,20 @@ export default class Grid extends React.Component {
     }
 
     render() {
+        const rowStyle = { height: '35vh', padding: '5px 0' };
         return (
             <Container fluid>
-                <Row className="first_row">
+                <Row style={rowStyle}>
                     <Col className="lightgray"><Widgets/></Col>
                     <Col className="mediumgray"><Widgets/></Col>
                 </Row>
-                <Row className="second_row">
+                <Row style={rowStyle}>
+                    <Col className="lightgray"><Widgets/></Col>
+                    <Col className="mediumgray"><Widgets/></Col>
+                    <Col className="lightgray"><Widgets/></Col>
+                    <Col className="mediumgray"><Widgets/></Col>
+                </Row>
+                <Row style={rowStyle}>
                     <Col className="lightgray"><Widgets/></Col>
                     <Col className="mediumgray"><Widgets/></Col>
                     <Col className="lightgray"><Widgets/></Col>

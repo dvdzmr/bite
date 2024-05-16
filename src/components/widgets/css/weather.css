@@ -1,0 +1,34 @@
+/*body {*/
+/*    background-color: lightblue;*/
+/*}*/
+
+
+.weather {
+    width: auto;
+    height: 100%;
+    margin-top: 1%;
+    text-align: center;
+    border-radius: 45px;
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color: whitesmoke;
+}
+
+.weather form {
+    margin-top: 1%;
+    padding: 1%;
+}
+
+.weather h3 {
+    padding: 0;
+    margin: 1%;
+}
+
+.weather p {
+    margin: 0;
+    padding: 0;
+}
+.weather ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}

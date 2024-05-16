@@ -4,10 +4,10 @@ import "./css/widgets.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
+import Weather from "./widgets/widget.weather.jsx";
 
 // Manually add entries from ./widgets/ here
 const widgetList = ["Weather", "Stocks", "Clock", "PhotoAlbum"];
-
 
 
 export default class Widgets extends React.Component {
@@ -33,7 +33,7 @@ export default class Widgets extends React.Component {
 
         const showWidgets = () => {
             if (this.state.widget === "Weather") {
-                return <h1>Weather</h1>
+                return <Weather />
             }
             if (this.state.widget === "Stocks") {
                 return <h1>Stocks</h1>
