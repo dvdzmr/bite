@@ -27,22 +27,23 @@ export function CreatingGrid() {
 
 export function SpawnGrid() {
     const grid = useSelector((state) => state.grid)
-    const rowStyle = { height: '35vh', padding: '5px 0' };
+    const rowHeight = useSelector((state) => state.grid.rowHeight)
+    const rowPadding = useSelector((state) => state.grid.rowPadding)
+    const rowStyle = { height: rowHeight, padding: rowPadding}
     return (
         <>
-        <div>grid info: {grid.rowOne} {grid.rowTwo} {grid.rowThree}</div>
-        <Row style={rowStyle}>
-
-            {addRows(grid.rowOne)}
-        </Row>
-        <Row style={rowStyle}>
-            {addRows(grid.rowTwo)}
-        </Row>
-        <Row style={rowStyle}>
-            {addRows(grid.rowThree)}
-        </Row>
+            <Row style={rowStyle}>
+                {addRows(grid.rowOne)}
+            </Row>
+            <Row style={rowStyle}>
+                {addRows(grid.rowTwo)}
+            </Row>
+            <Row style={rowStyle}>
+                {addRows(grid.rowThree)}
+            </Row>
         </>
     )
+
 }
 
 function addRows(rowNumber) {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import "./css/weather.css"
+import "./css/widgets.css"
 import Form from "react-bootstrap/Form";
 
 
@@ -30,8 +31,7 @@ export default function Weather () {
     };
 
     return (
-        <div className="weather" >
-            <h3>element height</h3>
+        <div className="widget" >
             <Form onSubmit={handleSubmit}>
                 <input
                     type="text"

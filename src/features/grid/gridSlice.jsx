@@ -6,6 +6,8 @@ export const gridSlice = createSlice({
         rowOne: 2,
         rowTwo: 4,
         rowThree: 3,
+        rowHeight: '35vh',
+        rowPadding: '5px 0'
     },
     reducers: {
         setRowOne: (state, action) => {
@@ -21,6 +23,6 @@ export const gridSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setRowOne, setRowTwo, setRowThree } = gridSlice.actions
+export const { setRowOne, setRowTwo, setRowThree , rowHeight, rowPadding} = gridSlice.actions
 
 export default gridSlice.reducer

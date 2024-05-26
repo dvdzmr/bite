@@ -6,8 +6,6 @@ import Col from 'react-bootstrap/Col';
 import React from 'react';
 import {Container, DropdownButton, Dropdown} from "react-bootstrap";
 import "./css/header.css"
-import {useDispatch} from "react-redux";
-import {setRowOne} from "./gridReducer.jsx";
 import {CreatingGrid} from "../features/grid/Grid.jsx";
 
 
