@@ -1,2 +1,26 @@
+.weather {
+    width: auto;
+    height: 100%;
+    margin-top: 1%;
+    text-align: center;
+}
 
+.weather form {
+    margin-top: 1%;
+    padding: 1%;
+}
 
+.weather h3 {
+    padding: 0;
+    margin: 1%;
+}
+
+.weather p {
+    margin: 0;
+    padding: 0;
+}
+.weather ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}

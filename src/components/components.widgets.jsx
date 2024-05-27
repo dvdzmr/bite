@@ -1,67 +1,91 @@
 // Logic to handle placing and changing widgets
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import "./css/widgets.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import Weather from "./widgets/widget.weather.jsx";
+import WidgetClock from "./widgets/widget.clock.jsx";
+import WidgetNotes from "./widgets/widget.notes.jsx";
 
 // Manually add entries from ./widgets/ here
-const widgetList = ["Weather", "Stocks", "Clock", "PhotoAlbum"];
+const widgetList = ["Weather", "Stocks", "Clock", "PhotoAlbum", "Notes"];
 
 
-export default class Widgets extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showList: false,
-            showWidget: false,
-            widget: null
-        }
+
+export default function Widgets() {
+    const [showList, setShowList] = React.useState(false);
+    const [showWidget, setShowWidget] = React.useState(false);
+    const [widget, setWidget] = React.useState(null);
+
+
+    const showWidgetList = () => {
+        setShowList(!showList);
+    };
+
+    const addSelectedWidget = (widgetName) => {
+        console.log("clicked widget:", widgetName);
+        setShowWidget(true);
+        setWidget(widgetName);
     }
 
-    render() {
-        const showWidgetList = () => {
-            this.setState({show: !this.state.show});
-        };
-
-        const addSelectedWidget = (widgetName) => {
-            console.log("clicked widget:", widgetName);
-            this.setState({showWidget: true});
-            this.setState({widget: widgetName});
+    const showWidgets = (width, height) => {
+        if (widget === "Weather") {
+            return <Weather width={width} height={height} />
         }
-
-        const showWidgets = () => {
-            if (this.state.widget === "Weather") {
-                return <Weather />
-            }
-            if (this.state.widget === "Stocks") {
-                return <h1>Stocks</h1>
-            }
-            if (this.state.widget === "Clock") {
-                return <h1>Clock</h1>
-            }
-            if (this.state.widget === "PhotoAlbum") {
-                return <h1>Photo Album</h1>
-            }
-            return <h1>Error no widget found</h1>
+        if (widget === "Stocks") {
+            return <h1>Stocks</h1>
         }
-        return (
-            <>{!this.state.showWidget?
-
-            <div className={!this.state.show ? "widget-container_default" : "widget-container_clicked"}>
-                <Button active={this.state.show} onClick={showWidgetList}><FontAwesomeIcon icon={faPlus}/>
-                </Button>
-                {this.state.show ? <div className="widget_text">
-                <ul className="widget_list">
-                    {widgetList.map(function(widget, index) {
-                        return <li key={index}> <Button onClick={() => addSelectedWidget(widget)}>{widget}</Button></li>
-                    })}
-                </ul>
-                </div> : null}
-            </div>
-                : <div>{showWidgets()}</div>}
-            </>
-        );
+        if (widget === "Clock") {
+            return <WidgetClock width={width} height={height}/>
+        }
+        if (widget === "PhotoAlbum") {
+            return <h1>Photo Album</h1>
+        }
+        if (widget === "Notes") {
+            return <WidgetNotes height={height}/>
+        }
+        return <h1>Error no widget found</h1>
     }
+
+
+    const useSize = () => {
+        const [windowSize, setWindowSize] = useState([
+            window.innerHeight,
+            window.innerWidth,
+        ]);
+
+        useEffect(() => {
+            const windowSizeHandler = () => {
+                setWindowSize([window.innerWidth, window.innerHeight]);
+            };
+            window.addEventListener("resize", windowSizeHandler);
+
+            return () => {
+                window.removeEventListener("resize", windowSizeHandler);
+            };
+        }, []);
+
+        return windowSize;
+    };
+
+    const windowSize = useSize();
+
+    return (
+        <>
+            {!showWidget ?
+                <div className={!showList ? "widget-container_default" : "widget-container_clicked"}>
+                    <Button active={showList} onClick={showWidgetList}><FontAwesomeIcon icon={faPlus}/>
+                    </Button>
+                    {showList ? <div className="widget_text">
+                        <ul className="widget_list">
+                            {widgetList.map(function(widget, index) {
+                                return <li key={index}> <Button onClick={() => addSelectedWidget(widget)}>{widget}</Button></li>
+                            })}
+                        </ul>
+                    </div> : null}
+                </div>
+                : <div>{showWidgets(windowSize[0], windowSize[1])}</div>}
+        </>
+    );
 }

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
 import "./css/weather.css"
-import "./css/widgets.css"
+import ScaleText from "react-scale-text";
 import Form from "react-bootstrap/Form";
 
 
-export default function Weather () {
+export default function Weather (width, height) {
     const [city, setCity] = useState('');
     const [weatherData, setWeatherData] = useState(null);
 
@@ -31,7 +31,7 @@ export default function Weather () {
     };
 
     return (
-        <div className="widget" >
+        <div className="weather" style={{ width:`${width}`, height:`${height}` }}>
             <Form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -43,17 +43,26 @@ export default function Weather () {
             </Form>
             {weatherData ? (
                 <>
+                <ScaleText maxFontSize={90} minFontSize={10}>
                     <h2>{weatherData.name}</h2>
                     <h3>{weatherData.main.temp}°C</h3>
                     {getWeatherEmoji(weatherData)}
                     <h4>Conditions:</h4>
-                    <p>{weatherData.weather[0].description}, feels like {weatherData.main.feels_like}°C.</p>
-                    <h4>Other stats:</h4>
-                    <ul>
-                        <li>Humidity : {weatherData.main.humidity}%</li>
-                        <li>Pressure : {weatherData.main.pressure}</li>
-                        <li>Wind Speed : {weatherData.wind.speed}m/s</li>
-                    </ul>
+                    <h5>{weatherData.weather[0].description}, feels like {weatherData.main.feels_like}°C.</h5>
+                        <h5>Other stats:</h5>
+                        <ul>
+                            <li>
+                                <h5>Humidity : {weatherData.main.humidity}%</h5>
+                            </li>
+                            <li>
+                                <h5>Pressure : {weatherData.main.pressure}</h5>
+                            </li>
+                            <li>
+                                <h5>Wind Speed : {weatherData.wind.speed}m/s</h5>
+                            </li>
+                        </ul>
+
+                </ScaleText>
 
                 </>
             ) : (
