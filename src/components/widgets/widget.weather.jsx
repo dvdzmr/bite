@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
 import "./css/weather.css"
-import ScaleText from "react-scale-text";
 import Form from "react-bootstrap/Form";
 
+//todo: fix UI
+//todo: add all CSS to this file
 
-export default function Weather (width, height) {
+export default function Weather () {
     const [city, setCity] = useState('');
     const [weatherData, setWeatherData] = useState(null);
 
@@ -31,7 +32,8 @@ export default function Weather (width, height) {
     };
 
     return (
-        <div className="weather" style={{ width:`${width}`, height:`${height}` }}>
+        //style={{ width:`${width}`, height:`${height}` }}
+        <div className="weather">
             <Form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -43,7 +45,6 @@ export default function Weather (width, height) {
             </Form>
             {weatherData ? (
                 <>
-                <ScaleText maxFontSize={90} minFontSize={10}>
                     <h2>{weatherData.name}</h2>
                     <h3>{weatherData.main.temp}°C</h3>
                     {getWeatherEmoji(weatherData)}
@@ -61,12 +62,9 @@ export default function Weather (width, height) {
                                 <h5>Wind Speed : {weatherData.wind.speed}m/s</h5>
                             </li>
                         </ul>
-
-                </ScaleText>
-
                 </>
             ) : (
-                <p>Loading weather...</p>
+                <p>Enter a city name</p>
             )}
         </div>
     );

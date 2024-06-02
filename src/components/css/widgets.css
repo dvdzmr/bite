@@ -7,13 +7,16 @@
 
 .widget-container_clicked{
     position: relative;
-    top: 30%;
+    top: 10%;
     left: 50%;
     transition: top 0.3s ease;
 }
 
 .widget_text {
+    /*position: absolute;*/
+    /*overflow-y: scroll;*/
     margin-top: 1%;
+    margin-bottom: 10%;
     animation: fadeIn 1.5s;
 }
 
@@ -26,4 +29,19 @@
     padding: 0;
     margin: 0;
     list-style: none;
+
+}
+
+.widget_container {
+    display: block;
+    overflow: hidden;
+    max-height: inherit;
+    height: 100%;
+    position: relative;
+}
+
+.widget_remove_button {
+    position: absolute;
+    top: 3%;
+    z-index: 1000; /* always be on top*/
 }

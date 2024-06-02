@@ -1,0 +1,11 @@
+.newsfeed {
+    /*font-family: sans-serif;*/
+    text-align: center;
+    overflow-y: auto;
+    max-height: inherit;
+    height: 85%;
+}
+
+h1 {
+    text-align: center;
+}

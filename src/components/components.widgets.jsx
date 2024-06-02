@@ -7,16 +7,35 @@ import Button from "react-bootstrap/Button";
 import Weather from "./widgets/widget.weather.jsx";
 import WidgetClock from "./widgets/widget.clock.jsx";
 import WidgetNotes from "./widgets/widget.notes.jsx";
+import WidgetCountdown from "./widgets/widget.countdown.jsx";
+import WidgetNewsFeed from "./widgets/widget.newsfeed.jsx";
+import Container from "react-bootstrap/Container";
+import widgetPhotoalbum from "./widgets/widget.photoalbum.jsx";
+import WidgetPhotoalbum from "./widgets/widget.photoalbum.jsx";
+import WidgetTodo from "./widgets/widget.todo.jsx";
+import {CloseButton} from "react-bootstrap";
 
 // Manually add entries from ./widgets/ here
-const widgetList = ["Weather", "Stocks", "Clock", "PhotoAlbum", "Notes"];
+const widgetList = ["Weather", "Stocks", "Clock", "PhotoAlbum", "Notes", "CountDown", "News", "ToDo"];
 
 
 
-export default function Widgets() {
-    const [showList, setShowList] = React.useState(false);
-    const [showWidget, setShowWidget] = React.useState(false);
-    const [widget, setWidget] = React.useState(null);
+
+export default function Widgets(id) {
+    const [showList, setShowList] = useState(false);
+    const [showWidget, setShowWidget] = useState(false);
+    const gridName = "grid_" + id.id + "_" + id.rowNum;
+    const [showCloseWidget, setShowCloseWidget] = useState(false);
+
+    const [widget, setWidget] = useState(() => {
+        let saved = null;
+        if (widgetList.includes(localStorage.getItem(gridName))) {
+            saved = localStorage.getItem(gridName);
+            setShowWidget(true);
+        }
+        // console.log("saved " + gridName, saved);
+        return saved;
+    });
 
 
     const showWidgetList = () => {
@@ -24,52 +43,57 @@ export default function Widgets() {
     };
 
     const addSelectedWidget = (widgetName) => {
-        console.log("clicked widget:", widgetName);
         setShowWidget(true);
         setWidget(widgetName);
+        localStorage.setItem(gridName, widgetName);
     }
 
-    const showWidgets = (width, height) => {
+    const removeWidget = () => {
+        setShowWidget(false);
+        setWidget(null);
+        localStorage.setItem(gridName, null);
+    }
+
+    const showWidgets = () => {
+        // console.log("Current widget:", widget);
         if (widget === "Weather") {
-            return <Weather width={width} height={height} />
+            return <Weather identifier={gridName}/>
+            // return <h1>Weather</h1>
         }
         if (widget === "Stocks") {
             return <h1>Stocks</h1>
         }
         if (widget === "Clock") {
-            return <WidgetClock width={width} height={height}/>
+            return <WidgetClock identifier={gridName}/>
+            // return <h1>Clock</h1>
         }
         if (widget === "PhotoAlbum") {
-            return <h1>Photo Album</h1>
+            return <WidgetPhotoalbum identifier={gridName}/>
+            // return <h1>Photo Album</h1>
         }
         if (widget === "Notes") {
-            return <WidgetNotes height={height}/>
+            return <WidgetNotes identifier={gridName}/>
+            // return <h1>Notes</h1>
+        }
+        if (widget === "CountDown") {
+            return <WidgetCountdown identifier={gridName}/>
+            // return <h1>CountDown</h1>
+        }
+        if (widget === "News") {
+            return <WidgetNewsFeed identifier={gridName}/>
+            // return <h1>News</h1>
+        }
+        if (widget === "ToDo") {
+            return <WidgetTodo identifier={gridName}/>
+            // return <h1>Todoapp</h1>
         }
         return <h1>Error no widget found</h1>
     }
 
-
-    const useSize = () => {
-        const [windowSize, setWindowSize] = useState([
-            window.innerHeight,
-            window.innerWidth,
-        ]);
-
-        useEffect(() => {
-            const windowSizeHandler = () => {
-                setWindowSize([window.innerWidth, window.innerHeight]);
-            };
-            window.addEventListener("resize", windowSizeHandler);
-
-            return () => {
-                window.removeEventListener("resize", windowSizeHandler);
-            };
-        }, []);
-
-        return windowSize;
-    };
-
-    const windowSize = useSize();
+    // use useEffect
+    window.addEventListener('editWidgets', () => {
+        setShowCloseWidget(!showCloseWidget);
+    })
 
     return (
         <>
@@ -85,7 +109,14 @@ export default function Widgets() {
                         </ul>
                     </div> : null}
                 </div>
-                : <div>{showWidgets(windowSize[0], windowSize[1])}</div>}
+                :
+                <div className="widget_container">
+                    <Container className="widget_container">{showWidgets()}</Container>
+                    {showCloseWidget ?
+                    <button className="widget_remove_button" onClick={removeWidget}>x</button> : null }
+                    {/*{showCloseWidget ?*/}
+                    {/*    <CloseButton className="widget_remove_button" onClick={removeWidget}/> : null }*/}
+                </div>}
         </>
     );
 }
