@@ -12,7 +12,11 @@ export default function Header() {
     const [searchProvider, setSearchProvider] = useState("DuckDuckGo");
     const [searchUrl, setSearchUrl] = useState("https://duckduckgo.com/?q=");
     const [searchQuery, setSearchQuery] = useState(null);
-    const [background, setBackground] = useState("linear-gradient(to right,#823604,#f96400)");
+
+    const [background, setBackground] = useState(() => {
+        const saved = localStorage.getItem("SearchBarImage");
+        return saved || "linear-gradient(to right,#823604,#f96400)";
+    });
 
     const [rowOne, setRowOne] = useState(() => {
         const saved = localStorage.getItem("rowOne");
@@ -37,7 +41,8 @@ export default function Header() {
         localStorage.setItem("rowOne", rowOne);
         localStorage.setItem("rowTwo", rowTwo);
         localStorage.setItem("rowThree", rowThree);
-    }, [rowOne, rowTwo, rowThree]);
+        localStorage.setItem("SearchBarImage", background)
+    }, [rowOne, rowTwo, rowThree, background]);
 
 
     const SetGrid = (first, second, third) => {
@@ -83,8 +88,6 @@ export default function Header() {
                     <Dropdown.Item as="button" onClick={() => setBackground("url('https://images.pexels.com/photos/1310755/pexels-photo-1310755.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')")}>Forest</Dropdown.Item>
                     <Dropdown.Item as="button" onClick={() => setBackground("url('https://images.pexels.com/photos/847402/pexels-photo-847402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')")}>Stars</Dropdown.Item>
                     <Dropdown.Item as="button" onClick={() => setBackground("url('https://images.pexels.com/photos/748626/pexels-photo-748626.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')")}>Moon</Dropdown.Item>
-
-                    <Dropdown.Item as="button" onClick={() => setBackground("")}>Black</Dropdown.Item>
                 </DropdownButton>
             </Navbar>
 

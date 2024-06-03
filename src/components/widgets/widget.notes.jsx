@@ -9,6 +9,7 @@ export default function WidgetNotes(identifier) {
 
     const [noteText, setNoteText] = useState("");
     const [widgetHeight, setWidgetHeight] = useState(undefined);
+    const [noteOpacity, setNoteOpacity] = useState(1);
     let widgetWidth = useRef(null);
 
     let noteStyle = {
@@ -16,7 +17,13 @@ export default function WidgetNotes(identifier) {
         height: `${widgetHeight*0.98}px`,
         resize: 'none',
         color: "black",
+        opacity: `${noteOpacity}`
     }
+
+    //todo: if i add a note overview on editwidgets, remove opacity changes
+    window.addEventListener('editWidgets', () => {
+        noteOpacity === 1 ? setNoteOpacity(0.3) : setNoteOpacity(1);
+    })
 
     const saveText = (t) => {
         // console.log(t.target.value);

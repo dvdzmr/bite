@@ -36,14 +36,14 @@ export default function WidgetClock(identifier) {
     }
 
     return (
-            <Tabs defaultActiveKey={localStorage.getItem("clock_tab" + identifier.identifier)} style={{height: "inherit"}} id="clock-tabs" className="mb-3" onSelect={(k) => saveActiveTab(k)}>
+            <Tabs fill defaultActiveKey={localStorage.getItem("clock_tab" + identifier.identifier)} style={{height: "inherit"}} id="clock-tabs" className="mb-3" onSelect={(k) => saveActiveTab(k)}>
                 <Tab eventKey="digital" title="Digital">
                     {datetime.toLocaleTimeString()}
                 </Tab>
                 <Tab eventKey="analog" title="Analog">
                     <AnalogTime hour={hourHand} minute={minuteHand} second={secondHand} />
                 </Tab>
-                <Tab eventKey="progressbar" title="Day %">
+                <Tab eventKey="progressbar" title="%">
                     <ProgressBar now={dayPercentage} label={`${dayPercentage}%`} />
                     {datetime.toLocaleTimeString()}
                 </Tab>

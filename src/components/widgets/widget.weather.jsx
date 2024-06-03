@@ -61,6 +61,7 @@ export default function Weather(identifier) {
         setWeatherData(tasksRaw !== null ? JSON.parse(tasksRaw) : null);
 
         // base values if no values are found in localStorage
+        //TODO: set wind, pressure and humidty to false if window size is below a threshold and disable buttons
         let jsonRaw = {celsius: true, fahrenheit: false, wind: true, pressure: true, humidity: true};
 
         // Checking if we have values already in localStorage
