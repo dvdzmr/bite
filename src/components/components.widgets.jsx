@@ -115,8 +115,8 @@ export default function Widgets(id) {
                     </div> : null}
                 </div>
                 :
-                <div style={{position: "relative"}}>
-                    <Container>{showWidgets()}</Container>
+                <div className="widget-container">
+                    {showWidgets()}
                     {showCloseWidget ?
                         <CloseButton aria-label="Close Widget" className="widget_remove_button " onClick={removeWidget}/> : null }
                 </div>}

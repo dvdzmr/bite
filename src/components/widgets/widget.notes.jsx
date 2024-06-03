@@ -1,21 +1,21 @@
 import Form from 'react-bootstrap/Form';
 import "./css/notes.css"
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
-
-//todo: fix UI
-//todo: add all CSS to this file
 //todo: add overview of all notes when in edit widget mode
 
 
 export default function WidgetNotes(identifier) {
 
     const [noteText, setNoteText] = useState("");
+    const [widgetHeight, setWidgetHeight] = useState(undefined);
+    let widgetWidth = useRef(null);
 
     let noteStyle = {
         backgroundColor: '#f0f037',
-        height: '90%',
-        resize: 'none'
+        height: `${widgetHeight*0.98}px`,
+        resize: 'none',
+        color: "black",
     }
 
     const saveText = (t) => {
@@ -29,9 +29,14 @@ export default function WidgetNotes(identifier) {
         else setNoteText(rawData)
     }, []);
 
+    useEffect(() => {
+        setWidgetHeight(widgetWidth.current.offsetWidth);
+        window.addEventListener("resize", () => setWidgetHeight(widgetWidth.current.offsetWidth));
+    }, [widgetWidth.current]);
+
     return (
         <div className="widget-notes">
-            <Form.Control as="textarea" style={noteStyle} onKeyUp={(t) => saveText(t)} defaultValue={noteText.substring(1, noteText.length - 1)} />
+            <Form.Control ref={widgetWidth} as="textarea" style={noteStyle} onKeyUp={(t) => saveText(t)} defaultValue={noteText.substring(1, noteText.length - 1)} />
         </div>
     )
 }
