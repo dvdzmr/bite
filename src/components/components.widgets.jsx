@@ -75,8 +75,8 @@ export default function Widgets(id) {
             // return <h1>CountDown</h1>
         }
         if (widget === "News") {
-            return <WidgetNewsFeed identifier={gridName}/>
-            // return <h1>News</h1>
+            // return <WidgetNewsFeed identifier={gridName}/>
+            return <h1>News</h1>
         }
         if (widget === "ToDo") {
             return <WidgetTodo identifier={gridName}/>
@@ -95,7 +95,7 @@ export default function Widgets(id) {
         <>
             {!showWidget ?
                 <div className="widget-button"  style={{top: !showList ? "50%" : "20%"}}>
-                    <Button active={showList} onClick={showWidgetList}><FontAwesomeIcon icon={faPlus}/>
+                    <Button variant="dark" active={showList} onClick={showWidgetList}><FontAwesomeIcon icon={faPlus}/>
                     </Button>
                     {showList ? <div className="widget_text">
                         <ul className="widget_list">
@@ -104,7 +104,7 @@ export default function Widgets(id) {
                                     key={index}
                                     // style={{float: "left"}}
                                 >
-                                    <ListGroup defaultActiveKey="#link1" variant="flush">
+                                    <ListGroup defaultActiveKey="#link1" variant="flush" data-bs-theme="dark">
                                         <ListGroup.Item action onClick={() => addSelectedWidget(widget)}>
                                             {widget}
                                         </ListGroup.Item>
