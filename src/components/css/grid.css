@@ -1,19 +1,5 @@
-.grid-row {
-    height: 35vh;
-    max-height: 35vh;
+.grid_styling {
     padding: 3px 0;
     margin-bottom: 1%;
-    max-width: inherit;
-}
-
-.mediumgray {
-    background-color: #dce3df;
-    max-height: inherit;
-    max-width: 100%;
-}
-
-.lightgray {
-    background-color: #f2f7f5;
-    max-height: inherit;
-    max-width: 100%;
+    overflow: visible;
 }

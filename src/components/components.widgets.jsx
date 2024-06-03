@@ -1,5 +1,5 @@
 // Logic to handle placing and changing widgets
-import React, {useEffect, useState} from 'react';
+import {useState} from 'react';
 import "./css/widgets.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -10,15 +10,13 @@ import WidgetNotes from "./widgets/widget.notes.jsx";
 import WidgetCountdown from "./widgets/widget.countdown.jsx";
 import WidgetNewsFeed from "./widgets/widget.newsfeed.jsx";
 import Container from "react-bootstrap/Container";
-import widgetPhotoalbum from "./widgets/widget.photoalbum.jsx";
 import WidgetPhotoalbum from "./widgets/widget.photoalbum.jsx";
 import WidgetTodo from "./widgets/widget.todo.jsx";
+import {ListGroup} from "react-bootstrap";
 import {CloseButton} from "react-bootstrap";
 
 // Manually add entries from ./widgets/ here
-const widgetList = ["Weather", "Stocks", "Clock", "PhotoAlbum", "Notes", "CountDown", "News", "ToDo"];
-
-
+const widgetList = ["Weather", "Clock", "Carousel", "Notes", "CountDown", "News", "ToDo"];
 
 
 export default function Widgets(id) {
@@ -60,14 +58,11 @@ export default function Widgets(id) {
             return <Weather identifier={gridName}/>
             // return <h1>Weather</h1>
         }
-        if (widget === "Stocks") {
-            return <h1>Stocks</h1>
-        }
         if (widget === "Clock") {
             return <WidgetClock identifier={gridName}/>
             // return <h1>Clock</h1>
         }
-        if (widget === "PhotoAlbum") {
+        if (widget === "Carousel") {
             return <WidgetPhotoalbum identifier={gridName}/>
             // return <h1>Photo Album</h1>
         }
@@ -95,27 +90,35 @@ export default function Widgets(id) {
         setShowCloseWidget(!showCloseWidget);
     })
 
+
     return (
         <>
             {!showWidget ?
-                <div className={!showList ? "widget-container_default" : "widget-container_clicked"}>
+                <div className="widget-button"  style={{top: !showList ? "50%" : "20%"}}>
                     <Button active={showList} onClick={showWidgetList}><FontAwesomeIcon icon={faPlus}/>
                     </Button>
                     {showList ? <div className="widget_text">
                         <ul className="widget_list">
                             {widgetList.map(function(widget, index) {
-                                return <li key={index}> <Button onClick={() => addSelectedWidget(widget)}>{widget}</Button></li>
+                                return <li
+                                    key={index}
+                                    // style={{float: "left"}}
+                                >
+                                    <ListGroup defaultActiveKey="#link1" variant="flush">
+                                        <ListGroup.Item action onClick={() => addSelectedWidget(widget)}>
+                                            {widget}
+                                        </ListGroup.Item>
+                                    </ListGroup>
+                                </li>
                             })}
                         </ul>
                     </div> : null}
                 </div>
                 :
-                <div className="widget_container">
-                    <Container className="widget_container">{showWidgets()}</Container>
+                <div style={{position: "relative"}}>
+                    <Container>{showWidgets()}</Container>
                     {showCloseWidget ?
-                    <button className="widget_remove_button" onClick={removeWidget}>x</button> : null }
-                    {/*{showCloseWidget ?*/}
-                    {/*    <CloseButton className="widget_remove_button" onClick={removeWidget}/> : null }*/}
+                        <CloseButton aria-label="Close Widget" className="widget_remove_button " onClick={removeWidget}/> : null }
                 </div>}
         </>
     );

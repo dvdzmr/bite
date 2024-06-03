@@ -2,11 +2,8 @@ import {useEffect, useState} from 'react';
 import './css/clock.css';
 import {ProgressBar, Tab, Tabs} from "react-bootstrap";
 
-//todo: add all CSS to this file
-
 
 export default function WidgetClock(identifier) {
-
     const [datetime, setDatetime] = useState(new Date())
     const [hourHand, setHourHand] = useState(0)
     const [minuteHand, setMinuteHand] = useState(0)
@@ -19,8 +16,6 @@ export default function WidgetClock(identifier) {
         if (tabRaw === null) return localStorage.setItem("clock_tab" + identifier.identifier, "digital")
 
     }, []);
-
-
 
     const updateDate = () => {
         setDatetime(new Date())
@@ -41,7 +36,7 @@ export default function WidgetClock(identifier) {
     }
 
     return (
-            <Tabs defaultActiveKey={localStorage.getItem("clock_tab" + identifier.identifier)} id="clock-tabs" className="mb-3" onSelect={(k) => saveActiveTab(k)}>
+            <Tabs defaultActiveKey={localStorage.getItem("clock_tab" + identifier.identifier)} style={{height: "inherit"}} id="clock-tabs" className="mb-3" onSelect={(k) => saveActiveTab(k)}>
                 <Tab eventKey="digital" title="Digital">
                     {datetime.toLocaleTimeString()}
                 </Tab>
@@ -59,7 +54,6 @@ export default function WidgetClock(identifier) {
 
 function AnalogTime(time) {
     return (
-        <div>
             <div className="clock-container styling">
                 <div id="clock" className="clock-content">
 
@@ -89,8 +83,6 @@ function AnalogTime(time) {
                     <div className="indicator-cover"></div>
                 </div>
             </div>
-
-        </div>
     );
 
 

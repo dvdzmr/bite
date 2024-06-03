@@ -5,6 +5,8 @@ import {useEffect, useState} from "react";
 
 //todo: fix UI
 //todo: add all CSS to this file
+//todo: add overview of all notes when in edit widget mode
+
 
 export default function WidgetNotes(identifier) {
 

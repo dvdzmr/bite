@@ -1,20 +1,17 @@
-.widget-container_default {
+.widget-button {
     position: relative;
     top: 50%;
-    left: 50%;
-    transition: top 0.3s ease;
-}
-
-.widget-container_clicked{
-    position: relative;
-    top: 10%;
-    left: 50%;
-    transition: top 0.3s ease;
+    transition: 0.3s ease;
+    height: inherit;
+    text-align: center;
+    transform: translateY(-50%);
 }
 
 .widget_text {
-    /*position: absolute;*/
-    /*overflow-y: scroll;*/
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
     margin-top: 1%;
     margin-bottom: 10%;
     animation: fadeIn 1.5s;
@@ -29,19 +26,11 @@
     padding: 0;
     margin: 0;
     list-style: none;
-
-}
-
-.widget_container {
-    display: block;
-    overflow: hidden;
-    max-height: inherit;
-    height: 100%;
-    position: relative;
 }
 
 .widget_remove_button {
     position: absolute;
-    top: 3%;
+    top: 10%;
+    /*transform: translate(-50%, -50%);*/
     z-index: 1000; /* always be on top*/
 }

@@ -1,15 +1,13 @@
 //displays imgur album (or local file upload?)
 
 import 'react-slideshow-image/dist/styles.css'
-import './css/photoalbum.css'
 import Form from 'react-bootstrap/Form';
 import {useEffect, useState} from "react";
-import {Carousel} from "react-bootstrap";
+import {Carousel, Col, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Image from 'react-bootstrap/Image';
 
 //todo: fix UI
-//todo: add all CSS to this file
 
 // album i made for testing:
 //https://imgur.com/a/rQIQZPd
@@ -19,7 +17,6 @@ export default function WidgetPhotoalbum(identifier) {
     const [widgetEdit, setWidgetEdit] = useState(false);
     const [displayButton, setDisplayButton] = useState(false);
     const [verifyImage, setVerifyImage] = useState("");
-
 
     window.addEventListener('editWidgets', () => {
         setWidgetEdit(!widgetEdit);
@@ -66,6 +63,43 @@ export default function WidgetPhotoalbum(identifier) {
         setImages([...images, {imageUrl: verifyImage}]);
     }
 
+    const removeImage = (e) => {
+        e.preventDefault();
+        // console.log(e.target.src);
+        let newImage = images.filter(function (value) {
+            return value.imageUrl !== e.target.src;
+        })
+        setImages(newImage);
+        // console.log("length", newImage.length);
+        // making sure last image is also removed from storage correctly:
+        if (newImage.length === 0) localStorage.removeItem("carousel" + identifier.identifier);
+    }
+
+    //css
+    const carouselImageStyle = {
+        width: "100%",
+        height: "100%",
+        paddingTop: "2%"
+    }
+
+    const carouselEditMode = {
+        width: `${100 / images.length}%`,
+        opacity: 1,
+    }
+
+
+    const carouselGrid = images.map((image) =>
+            <Image
+                key={image.key}
+                src={image.imageUrl}
+                rounded
+                style={carouselEditMode}
+                onMouseOver={(e) => e.target.style.opacity = 0.5}
+                onMouseLeave={(e) => e.target.style.opacity = 1}
+                onClick={removeImage}
+            />)
+
+
     return (
         <>
             {widgetEdit ?
@@ -80,25 +114,25 @@ export default function WidgetPhotoalbum(identifier) {
                         </>
                         :
                         <>
-                            {images.map((image, index) => (
-                                <Image src={image.imageUrl} rounded key={index} style={{width:`${100/images.length}%`}} />
-                            ))}
+                            <p>Click an image to remove it from carousel</p>
+                            {carouselGrid}
                         </>}
-                    {/*//todo: instead of null show a list of all added images with option to remove entries*/}
                 </Form>
                 :
                 <Carousel fade>
+                    {images.length === 0 ?
+                        <>
+                            <h1>Add a new image using edit widgets button</h1>
+                        </> : null}
                     {images.map((image, index) => (
                         <Carousel.Item key={index}>
                             <img alt="carousel" src={image.imageUrl}
-                                 className="carousel-image"/>
+                                 style={carouselImageStyle}/>
                         </Carousel.Item>
                     ))}
                 </Carousel>}
         </>
-
     );
-
-
 }
+
 
