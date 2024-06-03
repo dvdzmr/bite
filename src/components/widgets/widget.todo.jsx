@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 
 //todo: strikethrough on complete
 //todo: fix UI
-//todo: add all CSS to this file
+
 
 export default function WidgetTodo(identifier) {
     const [tasks, setTasks] = useState(undefined)

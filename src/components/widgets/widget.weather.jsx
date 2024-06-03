@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 import "./css/weather.css"
 import Form from "react-bootstrap/Form";
@@ -6,9 +6,22 @@ import Form from "react-bootstrap/Form";
 //todo: fix UI
 //todo: add all CSS to this file
 
-export default function Weather () {
+export default function Weather(identifier) {
     const [city, setCity] = useState('');
     const [weatherData, setWeatherData] = useState(null);
+    const [widgetEdit, setWidgetEdit] = useState(false);
+
+    // User settable settings:
+
+    const [showC, setShowC] = useState(undefined);
+    const [showF, setShowF] = useState(undefined);
+    const [showHumidity, setShowHumidity] = useState(undefined);
+    const [showPressure, setShowPressure] = useState(undefined);
+    const [showWind, setShowWind] = useState(undefined);
+
+    window.addEventListener('editWidgets', () => {
+        setWidgetEdit(!widgetEdit);
+    })
 
     const fetchData = async () => {
         try {
@@ -31,42 +44,129 @@ export default function Weather () {
         fetchData();
     };
 
+
+    useEffect(() => {
+        if (weatherData !== null) localStorage.setItem("weather" + identifier.identifier, JSON.stringify(weatherData));
+
+        console.log("triggered", weatherData);
+        if (showC !== undefined && showF !== undefined && showPressure !== undefined && showWind !== undefined && showHumidity !== undefined) {
+            let userSettings = {celsius: showC, fahrenheit: showF, humidity: showHumidity, pressure: showPressure, wind: showWind};
+            localStorage.setItem("weather_settings" + identifier.identifier, JSON.stringify(userSettings));
+        }
+    }, [weatherData, showC, showF, showWind, showHumidity, showPressure]);
+
+
+    useEffect(() => {
+        const tasksRaw = localStorage.getItem("weather" + identifier.identifier);
+        setWeatherData(tasksRaw != null ? JSON.parse(tasksRaw) : null);
+
+        const settingsRaw = JSON.parse(localStorage.getItem("weather_settings" + identifier.identifier));
+        setShowC(settingsRaw.celsius !== null ? settingsRaw.celsius : true);
+        setShowF(settingsRaw.fahrenheit !== null ? settingsRaw.fahrenheit: true);
+        setShowWind(settingsRaw.wind !== null ? settingsRaw.wind : true);
+        setShowHumidity(settingsRaw.humidity !== null ? settingsRaw.humidity: false);
+        setShowPressure(settingsRaw.pressure !== null ? settingsRaw.pressure: false);
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener("storage", storage => {
+            setWeatherData(storage.newValue === null ? [] : JSON.parse(storage.newValue));
+        })
+    }, [])
+
+
     return (
-        //style={{ width:`${width}`, height:`${height}` }}
-        <div className="weather">
-            <Form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Enter city name"
-                    value={city}
-                    onChange={handleInputChange}
-                />
-                <button type="submit">Get Weather</button>
-            </Form>
-            {weatherData ? (
+        <>
+            {widgetEdit ?
                 <>
-                    <h2>{weatherData.name}</h2>
-                    <h3>{weatherData.main.temp}°C</h3>
-                    {getWeatherEmoji(weatherData)}
-                    <h4>Conditions:</h4>
-                    <h5>{weatherData.weather[0].description}, feels like {weatherData.main.feels_like}°C.</h5>
-                        <h5>Other stats:</h5>
-                        <ul>
-                            <li>
-                                <h5>Humidity : {weatherData.main.humidity}%</h5>
-                            </li>
-                            <li>
-                                <h5>Pressure : {weatherData.main.pressure}</h5>
-                            </li>
-                            <li>
-                                <h5>Wind Speed : {weatherData.wind.speed}m/s</h5>
-                            </li>
-                        </ul>
-                </>
-            ) : (
-                <p>Enter a city name</p>
-            )}
-        </div>
+                    <br/>
+                    <br/>
+                    <Form>
+                        <Form.Check
+                            type="switch"
+                            id="1"
+                            label="Show celsius"
+                            checked={showC}
+                            onChange={() => setShowC(!showC)}
+                        />
+                        <Form.Check
+                            type="switch"
+                            id="1"
+                            label="Show Fahrenheit"
+                            checked={showF}
+                            onChange={() => setShowF(!showF)}
+                        />
+                        <Form.Check
+                            type="switch"
+                            id="1"
+                            label="Show pressure"
+                            checked={showPressure}
+                            onChange={() => setShowPressure(!showPressure)}
+                        />
+                        <Form.Check
+                            type="switch"
+                            id="1"
+                            label="Show wind"
+                            checked={showWind}
+                            onChange={() => setShowWind(!showWind)}
+                        />
+                        <Form.Check
+                            type="switch"
+                            id="1"
+                            label="Show humidity"
+                            checked={showHumidity}
+                            onChange={() => setShowHumidity(!showHumidity)}
+                        />
+                    </Form>
+                </> :
+
+
+                <div className="weather">
+                    <Form onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            placeholder="Enter city name"
+                            value={city}
+                            onChange={handleInputChange}
+                        />
+                        <button type="submit">Get Weather</button>
+                    </Form>
+                    {weatherData ? (
+                        <>
+                            <h2>{weatherData.name}</h2>
+                            <span>
+                                {showC ?
+                                    <h3>{(weatherData.main.temp).toFixed(1)}°C</h3>
+                                    : null}
+
+                                {showF ?
+                                    <h3>{(weatherData.main.temp * (9/5) + 32).toFixed(1)}°F</h3>
+                                    : null}
+                            </span>
+
+                            {getWeatherEmoji(weatherData)}
+                            <h4>Conditions:</h4>
+                            <h5>{weatherData.weather[0].description}, feels like {weatherData.main.feels_like}°C.</h5>
+                            <h5>Other stats:</h5>
+                            <ul>
+                                {showHumidity ?
+                                    <li>
+                                        <h5>Humidity : {weatherData.main.humidity}%</h5>
+                                    </li> : null}
+                                {showPressure?
+                                <li>
+                                    <h5>Pressure : {weatherData.main.pressure}</h5>
+                                </li>:null}
+                                {showWind ?
+                                <li>
+                                    <h5>Wind Speed : {weatherData.wind.speed}m/s</h5>
+                                </li>:null}
+                            </ul>
+                        </>
+                    ) : <p>Enter a city name</p>}
+                </div>
+            }
+        </>
     );
 }
 
