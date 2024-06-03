@@ -58,14 +58,20 @@ export default function Weather(identifier) {
 
     useEffect(() => {
         const tasksRaw = localStorage.getItem("weather" + identifier.identifier);
-        setWeatherData(tasksRaw != null ? JSON.parse(tasksRaw) : null);
+        setWeatherData(tasksRaw !== null ? JSON.parse(tasksRaw) : null);
 
-        const settingsRaw = JSON.parse(localStorage.getItem("weather_settings" + identifier.identifier));
-        setShowC(settingsRaw.celsius !== null ? settingsRaw.celsius : true);
-        setShowF(settingsRaw.fahrenheit !== null ? settingsRaw.fahrenheit: true);
-        setShowWind(settingsRaw.wind !== null ? settingsRaw.wind : true);
-        setShowHumidity(settingsRaw.humidity !== null ? settingsRaw.humidity: false);
-        setShowPressure(settingsRaw.pressure !== null ? settingsRaw.pressure: false);
+        // base values if no values are found in localStorage
+        let jsonRaw = {celsius: true, fahrenheit: false, wind: true, pressure: true, humidity: true};
+
+        // Checking if we have values already in localStorage
+        const settingsRaw = localStorage.getItem("weather_settings" + identifier.identifier);
+        if (settingsRaw !== null) jsonRaw = JSON.parse(settingsRaw);
+        setShowC(jsonRaw.celsius );
+        setShowF(jsonRaw.fahrenheit);
+        setShowWind(jsonRaw.wind);
+        setShowHumidity(jsonRaw.humidity);
+        setShowPressure(jsonRaw.pressure);
+
     }, []);
 
     useEffect(() => {
