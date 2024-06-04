@@ -7,7 +7,11 @@ import {Carousel, Col, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Image from 'react-bootstrap/Image';
 
+import "./css/photoalbum.css"
+
 //todo: fix UI
+//todo: add modal to 'remove image' to confirm if they want to remove
+
 
 // album i made for testing:
 //https://imgur.com/a/rQIQZPd
@@ -77,9 +81,7 @@ export default function WidgetPhotoalbum(identifier) {
 
     //css
     const carouselImageStyle = {
-        width: "100%",
-        height: "100%",
-        paddingTop: "2%"
+
     }
 
     const carouselEditMode = {
@@ -119,20 +121,21 @@ export default function WidgetPhotoalbum(identifier) {
                         </>}
                 </Form>
                 :
-                <Carousel fade>
+                <div>
                     {images.length === 0 ?
-                        <>
-                            <h1>Add a new image using edit widgets button</h1>
-                        </> : null}
-                    {images.map((image, index) => (
-                        <Carousel.Item key={index}>
-                            <img alt="carousel" src={image.imageUrl}
-                                 style={carouselImageStyle}/>
-                        </Carousel.Item>
-                    ))}
-                </Carousel>}
-        </>
-    );
+                        <h1 className="add-new-image-info">Add a new image using edit widgets button</h1>
+                        :
+                        <Carousel fade style={{position: "absolute"}}>
+                            {images.map((image, index) => (
+                                <Carousel.Item key={index}>
+                                    <img alt="carousel" src={image.imageUrl} className="carousel-image-style"/>
+                                </Carousel.Item>
+                            ))}
+                        </Carousel> }
+
+                </div>}
+            </>
+   );
 }
 
 

@@ -9,7 +9,10 @@ import "./css/header.css"
 
 
 export default function Header() {
-    const [searchProvider, setSearchProvider] = useState("DuckDuckGo");
+    const [searchProvider, setSearchProvider] = useState(() => {
+        const saved = localStorage.getItem("searchProvider");
+        return saved || "DuckDuckGo";
+    });
     const [searchUrl, setSearchUrl] = useState("https://duckduckgo.com/?q=");
     const [searchQuery, setSearchQuery] = useState(null);
 
