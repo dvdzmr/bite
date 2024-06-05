@@ -10,15 +10,15 @@ export default function Weather(identifier) {
     const [city, setCity] = useState('');
     const [weatherData, setWeatherData] = useState(null);
     const [widgetEdit, setWidgetEdit] = useState(false);
-    const [widgetHeight, setWidgetHeight] = useState(undefined);
+    const [widgetHeight, setWidgetHeight] = useState(0);
     let widgetWidth = useRef(null);
     // User settable settings:
 
-    const [showC, setShowC] = useState(undefined);
-    const [showF, setShowF] = useState(undefined);
-    const [showHumidity, setShowHumidity] = useState(undefined);
-    const [showPressure, setShowPressure] = useState(undefined);
-    const [showWind, setShowWind] = useState(undefined);
+    const [showC, setShowC] = useState('');
+    const [showF, setShowF] = useState('');
+    const [showHumidity, setShowHumidity] = useState('');
+    const [showPressure, setShowPressure] = useState('');
+    const [showWind, setShowWind] = useState('');
 
 
     //breakpoint at which widget goes from 'small' to 'big' mode, in px.
@@ -57,7 +57,7 @@ export default function Weather(identifier) {
         if (weatherData !== null) localStorage.setItem("weather" + identifier.identifier, JSON.stringify(weatherData));
 
         // console.log("triggered", weatherData);
-        if (showC !== undefined && showF !== undefined && showPressure !== undefined && showWind !== undefined && showHumidity !== undefined) {
+        if (showC !== '' && showF !== '' && showPressure !== '' && showWind !== '' && showHumidity !== '') {
             let userSettings = {celsius: showC, fahrenheit: showF, humidity: showHumidity, pressure: showPressure, wind: showWind};
             localStorage.setItem("weather_settings" + identifier.identifier, JSON.stringify(userSettings));
         }

@@ -8,10 +8,10 @@ import Button from "react-bootstrap/Button";
 
 
 export default function WidgetTodo(identifier) {
-    const [tasks, setTasks] = useState(undefined)
+    const [tasks, setTasks] = useState('')
 
     useEffect(() => {
-        if (tasks !== undefined) localStorage.setItem("todolist" + identifier.identifier, JSON.stringify(tasks));
+        if (tasks !== '') localStorage.setItem("todolist" + identifier.identifier, JSON.stringify(tasks));
     }, [tasks]);
 
     useEffect(() => {
@@ -67,7 +67,7 @@ export default function WidgetTodo(identifier) {
                 </Button>
             </Form>
             <Form>
-                {tasks !== undefined ? tasks.map((task, index) => (
+                {tasks !== '' ? tasks.map((task, index) => (
                     <Form.Check
                         key={index} type="switch"
                         id={task.id} label={task.text}

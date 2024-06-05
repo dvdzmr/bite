@@ -8,6 +8,7 @@ import "./css/newsfeed.css";
 export default function WidgetNewsFeed() {
     const [getNews, setGetNews] = useState([]);
     const [isPending, setIsPending] = useState(true);
+    //TODO: replace null with empty value maybe '' ?
     const [error, setError] = useState(null);
     const apiKey = "pub_45264ce1382248d28d83fd1c410d4633ba67e";
     const category = "technology";

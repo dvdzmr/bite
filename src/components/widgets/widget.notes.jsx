@@ -8,7 +8,7 @@ import {useEffect, useRef, useState} from "react";
 export default function WidgetNotes(identifier) {
 
     const [noteText, setNoteText] = useState("");
-    const [widgetHeight, setWidgetHeight] = useState(undefined);
+    const [widgetHeight, setWidgetHeight] = useState(0);
     const [noteOpacity, setNoteOpacity] = useState(1);
     let widgetWidth = useRef(null);
 
@@ -43,7 +43,12 @@ export default function WidgetNotes(identifier) {
 
     return (
         <div className="widget-notes">
-            <Form.Control ref={widgetWidth} as="textarea" style={noteStyle} onKeyUp={(t) => saveText(t)} defaultValue={noteText.substring(1, noteText.length - 1)} />
+            <Form.Control
+                ref={widgetWidth}
+                as="textarea"
+                style={noteStyle}
+                onKeyUp={(t) => saveText(t)}
+                defaultValue={noteText.substring(1, noteText.length - 1)} />
         </div>
     )
 }

@@ -1,0 +1,10 @@
+.countdown-message {
+    /*position: relative;*/
+    /*top: 50%;*/
+    margin-top: 0%;
+    transform: translateY(70%);
+}
+
+.countdown-date-selector {
+    margin-top: 5%;
+}

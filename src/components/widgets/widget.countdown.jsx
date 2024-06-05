@@ -1,9 +1,9 @@
 // import Button from 'react-bootstrap/Button';
 import Form from "react-bootstrap/Form";
 import {useEffect, useState} from "react";
-
-//todo: fix UI
-//todo: add all CSS to this file
+import "./css/countdown.css"
+import FlipNumbers from 'react-flip-numbers';
+import {Col, Row} from "react-bootstrap";
 
 export default function WidgetCountdown(identifier) {
     const [years, setYears] = useState(0);
@@ -12,29 +12,48 @@ export default function WidgetCountdown(identifier) {
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
+    const [date, setDate] = useState('');
+    const [currentDate, setCurrentDate] = useState('');
+    const [countdownMessage, setCountdownMessage] = useState("Until ...");
+    const [widgetEdit, setWidgetEdit] = useState(false);
 
-    const [date, setDate] = useState(undefined);
+    window.addEventListener('editWidgets', () => {
+        setWidgetEdit(!widgetEdit);
+    })
 
+
+    const personalCountdownMessage = (e) => {
+        console.log(e.target.value);
+        setCountdownMessage(e.target.value)
+        localStorage.setItem("countdown_message_" + identifier.identifier, countdownMessage);
+    }
 
     useEffect(() => {
-        if (date !== undefined) localStorage.setItem("countdown" + identifier.identifier, JSON.stringify(date));
+        if (date !== '') localStorage.setItem("countdown" + identifier.identifier, JSON.stringify(date));
         handleInputChange(date);
-    }, [date]);
 
+        let countdownMessage = localStorage.getItem("countdown_message_" + identifier.identifier);
+        if (countdownMessage !== null)
+            setCountdownMessage(countdownMessage);
+
+    }, [date]);
 
     useEffect(() => {
         const countdownRaw = localStorage.getItem("countdown" + identifier.identifier);
         setDate(countdownRaw != null ? JSON.parse(countdownRaw) : []);
+        setInterval(updateDate, 1000);
     }, []);
 
     useEffect(() => {
-        window.addEventListener("storage", storage => {
-            setDate(storage.newValue === null ? [] : JSON.parse(storage.newValue));
-        })
-    }, [])
+        handleInputChange(date);
+    }, [currentDate]);
+
 
     const handleInputChange = (e) => {
-        const time = Date.parse(e) - Date.parse(new Date());
+        let time
+        if (currentDate !== '') time = Date.parse(e) - currentDate;
+        else time = Date.parse(e) - Date.parse(new Date());
+
         if (time < 0) {
             setDays(0);
             setHours(0);
@@ -55,26 +74,53 @@ export default function WidgetCountdown(identifier) {
         setDate(e.target.value);
     }
 
+    const updateDate = () => {
+        setCurrentDate(new Date())
+    }
+
+
     return (
         <>
-            <Form>
+            {widgetEdit ? <Form.Control
+                    type="text"
+                    placeholder="Countdown message"
+                    className="countdown-message"
+                    // onChange={personalCountdownMessage}
+                    onKeyUp={(t) => personalCountdownMessage(t)}
+                />
+                :
+            <>
+            <Form className="countdown-date-selector" >
                 <Form.Group required className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Countdown</Form.Label>
                     <Form.Control type="datetime-local" onChange={handleDate} value={date} />
                 </Form.Group>
-                {/*<Button type="submit">Countdown!</Button>*/}
             </Form>
 
             <div>
-                {years !== 0 ? <div>{String(years).padStart(2, '0')} {years > 1? "Years" : "Year"}</div>:null}
-                {weeks !== 0 ? <div>{String(weeks).padStart(2, '0')} {weeks > 1? "Weeks" : "Week"}</div>:null}
-                {days !== 0 || (days === 0 && weeks > 0) ? <div>{String(days).padStart(2, '0')} {days > 1? "Days" : "Day"}</div>:null}
-                <div>{String(hours).padStart(2, '0')} {hours > 1? "Hours" : "Hour"}</div>
-                <div>{String(minutes).padStart(2, '0')} {minutes > 1? "Minutes" : "Minute"}</div>
-                <div>{String(seconds).padStart(2, '0')} {seconds > 1? "Seconds" : "Second"}</div>
+                <FlipNumbers
+                    height={30}
+                    width={20}
+                    color="white"
+                    background="grey"
+                    play
+                    perspective={400}
+                    numbers={`${String(hours).padStart(2, '0')} | ${String(minutes).padStart(2, '0')} | ${String(seconds).padStart(2, '0')}`}
+                />
+
+                {years !== 0 ? <h1>{String(years)} {years > 1 ? "Years" : "Year"}</h1> : null}
+                {weeks !== 0 ? <h1>{String(weeks)} {weeks > 1 ? "Weeks" : "Week"}</h1> : null}
+                {days !== 0 || (days === 0 && weeks > 0) ?
+                    <h1>{String(days)} {days > 1 || days === 0 ? "Days" : "Day"}</h1> : null}
+
+                <br/>
+                <h3 style={{textAlign: "center"}}>{countdownMessage}</h3>
+
+                {countdownMessage === "Until ..." ?
+                <h6 style={{textAlign: "center"}}>Write your own custom message by pressing Edit Widgets up top</h6>:null}
+
             </div>
-
-
+            </>
+            }
         </>
     )
 }

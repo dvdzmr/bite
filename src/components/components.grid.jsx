@@ -9,10 +9,11 @@ export default function Grid() {
     const [rowTwo, setRowTwo] = useState(2);
     const [rowThree, setRowThree] = useState(4);
 
+
     useEffect(() => {
-        setRowOne(Number(localStorage.getItem("rowOne")));
-        setRowTwo(Number(localStorage.getItem("rowTwo")));
-        setRowThree(Number(localStorage.getItem("rowThree")));
+        if (localStorage.getItem("rowOne") !== null) setRowOne(Number(localStorage.getItem("rowOne")));
+        if (localStorage.getItem("rowTwo") !== null) setRowTwo(Number(localStorage.getItem("rowTwo")));
+        if (localStorage.getItem('rowThree') !== null) setRowThree(Number(localStorage.getItem("rowThree")));
     }, [rowOne, rowTwo, rowThree]);
 
 

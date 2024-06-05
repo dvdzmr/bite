@@ -24,19 +24,19 @@ export default function Header() {
     const [rowOne, setRowOne] = useState(() => {
         const saved = localStorage.getItem("rowOne");
         let initialValue = JSON.parse(saved);
-        return initialValue || null;
+        return initialValue || 3;
     });
 
     const [rowTwo, setRowTwo] = useState(() => {
         const saved = localStorage.getItem("rowTwo");
         let initialValue = JSON.parse(saved);
-        return initialValue || null;
+        return initialValue || 2;
     });
 
     const [rowThree, setRowThree] = useState(() => {
         const saved = localStorage.getItem("rowThree");
         let initialValue = JSON.parse(saved);
-        return initialValue || null;
+        return initialValue || 4;
     });
 
 
@@ -45,7 +45,8 @@ export default function Header() {
         localStorage.setItem("rowTwo", rowTwo);
         localStorage.setItem("rowThree", rowThree);
         localStorage.setItem("SearchBarImage", background)
-    }, [rowOne, rowTwo, rowThree, background]);
+        localStorage.setItem("searchProvider", searchProvider)
+    }, [rowOne, rowTwo, rowThree, background, searchProvider]);
 
 
     const SetGrid = (first, second, third) => {
