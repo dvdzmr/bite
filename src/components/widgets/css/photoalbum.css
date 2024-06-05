@@ -8,3 +8,7 @@
     margin-top: 50%;
     transform: translateY(-50%);
 }
+
+.carousel-url-text {
+    padding-top: 5%;
+}

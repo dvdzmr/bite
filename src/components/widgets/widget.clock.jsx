@@ -1,6 +1,7 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import './css/clock.css';
 import {ProgressBar, Tab, Tabs} from "react-bootstrap";
+import { ReactFitty } from "react-fitty";
 
 
 export default function WidgetClock(identifier) {
@@ -9,6 +10,14 @@ export default function WidgetClock(identifier) {
     const [minuteHand, setMinuteHand] = useState(0)
     const [secondHand, setSecondHand] = useState(0)
     const [dayPercentage, setDayPercentage] = useState(0)
+
+    const [widgetHeight, setWidgetHeight] = useState(0);
+    let widgetWidth = useRef(null);
+
+    useEffect(() => {
+        setWidgetHeight(widgetWidth.current.offsetWidth);
+        window.addEventListener("resize", () => setWidgetHeight(widgetWidth.current.offsetWidth));
+    }, [widgetWidth.current]);
 
     useEffect(() => {
         setInterval(updateDate, 1000)
@@ -35,18 +44,33 @@ export default function WidgetClock(identifier) {
         localStorage.setItem("clock_tab" + identifier.identifier, k)
     }
 
+    const fontScaling = {
+        fontSize: widgetHeight > 800 ? "10em" : widgetHeight < 400 ? "2em" : "4em"
+    }
+
     return (
-            <Tabs fill defaultActiveKey={localStorage.getItem("clock_tab" + identifier.identifier)} style={{height: "inherit"}} id="clock-tabs" className="mb-3" onSelect={(k) => saveActiveTab(k)}>
+            <Tabs
+
+                fill
+                defaultActiveKey={localStorage.getItem("clock_tab" + identifier.identifier)}
+                style={{height: "inherit"}}
+                id="clock-tabs"
+                className="mb-3"
+                onSelect={(k) => saveActiveTab(k)}>
+
                 <Tab eventKey="digital" title="Digital">
-                    {datetime.toLocaleTimeString()}
+                    <div ref={widgetWidth} className="digitalclock-text" style={fontScaling}>{datetime.toLocaleTimeString()}</div>
                 </Tab>
+
+
                 <Tab eventKey="analog" title="Analog">
                     <AnalogTime hour={hourHand} minute={minuteHand} second={secondHand} />
                 </Tab>
-                <Tab eventKey="progressbar" title="%">
-                    <ProgressBar now={dayPercentage} label={`${dayPercentage}%`} />
-                    {datetime.toLocaleTimeString()}
-                </Tab>
+
+
+                {/*<Tab eventKey="progressbar" title="%">*/}
+                {/*    <ProgressBar animated now={dayPercentage} label={`${dayPercentage}%`} />*/}
+                {/*</Tab>*/}
             </Tabs>
 
 )

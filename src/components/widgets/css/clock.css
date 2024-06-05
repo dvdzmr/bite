@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
+.digitalclock-text {
+    font-weight: bold;
+    font-family: monospace;
+    text-align: center;
+    text-shadow: 1px 1px 3px hsla(0, 0%, 0%, 0.3);
+}
+
 .clock-container {
     position: relative;
     overflow: hidden;

@@ -3,7 +3,7 @@
 import 'react-slideshow-image/dist/styles.css'
 import Form from 'react-bootstrap/Form';
 import {useEffect, useState} from "react";
-import {Carousel, Col, Row} from "react-bootstrap";
+import {Carousel, Col, Modal, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Image from 'react-bootstrap/Image';
 
@@ -22,6 +22,22 @@ export default function WidgetPhotoalbum(identifier) {
     const [displayButton, setDisplayButton] = useState(false);
     const [verifyImage, setVerifyImage] = useState("");
 
+
+    const [removeImageUrl, setRemoveImageUrl] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    const handleClose = () => setShowModal(false);
+    const handleConfirm = () => {
+        setShowModal(false);
+
+        let newImage = images.filter(function (value) {
+            // return value.imageUrl !== e.target.src;
+            return value.imageUrl !== removeImageUrl;
+        })
+        setImages(newImage);
+        if (newImage.length === 0) localStorage.removeItem("carousel" + identifier.identifier);
+
+    }
+    
     window.addEventListener('editWidgets', () => {
         setWidgetEdit(!widgetEdit);
         setVerifyImage("");
@@ -69,20 +85,16 @@ export default function WidgetPhotoalbum(identifier) {
 
     const removeImage = (e) => {
         e.preventDefault();
-        // console.log(e.target.src);
-        let newImage = images.filter(function (value) {
-            return value.imageUrl !== e.target.src;
-        })
-        setImages(newImage);
-        // console.log("length", newImage.length);
-        // making sure last image is also removed from storage correctly:
-        if (newImage.length === 0) localStorage.removeItem("carousel" + identifier.identifier);
-    }
+        // asking user if theyre sure
+        // console.log(e.target.src)
 
-    //css
-    const carouselImageStyle = {
+        setRemoveImageUrl(e.target.src);
+        setShowModal(true);
 
     }
+
+
+
 
     const carouselEditMode = {
         width: `${100 / images.length}%`,
@@ -104,8 +116,22 @@ export default function WidgetPhotoalbum(identifier) {
 
     return (
         <>
+            <Modal show={showModal} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm deletion</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Are you sure you want to remove this image from the carousel?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Nevermind
+                    </Button>
+                    <Button variant="primary" onClick={handleConfirm}>
+                        I&apos;m sure
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             {widgetEdit ?
-                <Form className="mb-3" onSubmit={saveImage}>
+                <Form className="mb-3 carousel-url-text" onSubmit={saveImage}>
                     <Form.Control type="text" placeholder="Enter image URL" onChange={checkImage} name="urlInput"/>
                     {displayButton ?
                         <>

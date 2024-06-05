@@ -2,9 +2,8 @@ import {useEffect, useState} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-
-//todo: strikethrough on complete
-//todo: fix UI
+import "./css/todo.css"
+import {InputGroup, ListGroup, SplitButton, Dropdown} from "react-bootstrap";
 
 
 export default function WidgetTodo(identifier) {
@@ -55,28 +54,34 @@ export default function WidgetTodo(identifier) {
     return (
         <div>
             <Form onSubmit={addTask}>
+            <InputGroup size="lg" className="todo-input" >
                 <Form.Control type="text" name="userInput"/>
-                <Button type="submit">
-                    Submit
-                </Button>
-                <Button onClick={clearComplete}>
-                    Clear completed
-                </Button>
-                <Button onClick={() => setTasks([])}>
-                    Clear all
-                </Button>
+                <SplitButton
+                    variant="secondary"
+                    title="Add Task"
+                    type="submit"
+                    alignRight
+                >
+                    <Dropdown.Item onClick={() => setTasks([])}>Clear All</Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={clearComplete}>Clear Completed</Dropdown.Item>
+                </SplitButton>
+            </InputGroup>
             </Form>
-            <Form>
+
+            <ListGroup>
                 {tasks !== '' ? tasks.map((task, index) => (
+                    <ListGroup.Item key={index} >
                     <Form.Check
-                        key={index} type="switch"
+                        type="switch"
                         id={task.id} label={task.text}
                         checked={task.complete}
-                        style={{textDecoration: task.complete ? "line-through" : "none"}}
                         onChange={() => setComplete(index)}
+                        className="todo-items"
                     />
+                    </ListGroup.Item>
                 )) : null}
-            </Form>
+            </ListGroup>
         </div>
     )
 }

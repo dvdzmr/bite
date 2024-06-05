@@ -39,7 +39,6 @@ export default function Grid() {
 
 function addRows(colAmount, rowNum) {
     let items = [];
-
     // Setting alternating background colors for better visiblity
     for (let i = 0; i < colAmount; i++) {
         if (i % 2 === 0) {

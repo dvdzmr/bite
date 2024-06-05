@@ -160,7 +160,7 @@ export default function Weather(identifier) {
                         {!weatherData ? <h1 className="weather-info-container">Weather 🌞</h1> : null}
                         <Form.Control
                             className="search-bar"
-                            size="md"
+                            size={weatherData === null ? "lg" : "md"}
                             type="text"
                             placeholder="Enter city name"
                             value={city}

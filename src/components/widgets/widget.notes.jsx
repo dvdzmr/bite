@@ -8,8 +8,8 @@ import {useEffect, useRef, useState} from "react";
 export default function WidgetNotes(identifier) {
 
     const [noteText, setNoteText] = useState("");
-    const [widgetHeight, setWidgetHeight] = useState(0);
     const [noteOpacity, setNoteOpacity] = useState(1);
+    const [widgetHeight, setWidgetHeight] = useState(0);
     let widgetWidth = useRef(null);
 
     let noteStyle = {

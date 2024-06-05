@@ -8,8 +8,6 @@ import Weather from "./widgets/widget.weather.jsx";
 import WidgetClock from "./widgets/widget.clock.jsx";
 import WidgetNotes from "./widgets/widget.notes.jsx";
 import WidgetCountdown from "./widgets/widget.countdown.jsx";
-import WidgetNewsFeed from "./widgets/widget.newsfeed.jsx";
-import Container from "react-bootstrap/Container";
 import WidgetPhotoalbum from "./widgets/widget.photoalbum.jsx";
 import WidgetTodo from "./widgets/widget.todo.jsx";
 import {ListGroup} from "react-bootstrap";
@@ -118,7 +116,10 @@ export default function Widgets(id) {
                 <div className="widget-container">
                     {showWidgets()}
                     {showCloseWidget ?
-                        <CloseButton aria-label="Close Widget" className="widget_remove_button " onClick={removeWidget}/> : null }
+                        <Button aria-label="Close Widget"
+                                className="widget_remove_button"
+                                variant="danger"
+                                onClick={removeWidget}>X</Button> : null }
                 </div>}
         </>
     );
