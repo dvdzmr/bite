@@ -1,9 +1,9 @@
 .newsfeed {
-    /*font-family: sans-serif;*/
+    font-family: sans-serif;
     text-align: center;
     overflow-y: auto;
     max-height: inherit;
-    height: 85%;
+    transform: translateY(2%);
 }
 
 h1 {

@@ -11,6 +11,7 @@ import WidgetCountdown from "./widgets/widget.countdown.jsx";
 import WidgetPhotoalbum from "./widgets/widget.photoalbum.jsx";
 import WidgetTodo from "./widgets/widget.todo.jsx";
 import {ListGroup} from "react-bootstrap";
+import WidgetNewsFeed from "./widgets/widget.newsfeed.jsx";
 
 // Manually add entries from ./widgets/ here
 const widgetList = ["Weather", "Clock", "Carousel", "Notes", "CountDown", "News", "ToDo"];
@@ -76,8 +77,8 @@ export default function Widgets(id) {
             // return <h1>CountDown</h1>
         }
         if (widget === "News") {
-            // return <WidgetNewsFeed identifier={gridName}/>
-            return <h1>News</h1>
+            return <WidgetNewsFeed identifier={gridName}/>
+            // return <h1>News</h1>
         }
         if (widget === "ToDo") {
             return <WidgetTodo identifier={gridName}/>
