@@ -3,7 +3,10 @@ import Form from "react-bootstrap/Form";
 import {useEffect, useState} from "react";
 import "./css/countdown.css"
 import FlipNumbers from 'react-flip-numbers';
-import {Col, Row} from "react-bootstrap";
+import {Col, Dropdown, InputGroup, Row, SplitButton} from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import {ReactFitty} from "react-fitty";
+import Container from "react-bootstrap/Container";
 
 export default function WidgetCountdown(identifier) {
     const [years, setYears] = useState(0);
@@ -14,7 +17,7 @@ export default function WidgetCountdown(identifier) {
     const [seconds, setSeconds] = useState(0);
     const [date, setDate] = useState('');
     const [currentDate, setCurrentDate] = useState('');
-    const [countdownMessage, setCountdownMessage] = useState("Until ...");
+    const [countdownMessage, setCountdownMessage] = useState("your event");
     const [widgetEdit, setWidgetEdit] = useState(false);
 
     window.addEventListener('editWidgets', () => {
@@ -23,8 +26,11 @@ export default function WidgetCountdown(identifier) {
 
 
     const personalCountdownMessage = (e) => {
-        console.log(e.target.value);
-        setCountdownMessage(e.target.value)
+        e.preventDefault();
+        const
+            formData = new FormData(e.target),
+            formDataObj = Object.fromEntries(formData.entries());
+        setCountdownMessage(formDataObj.userInput);
         localStorage.setItem("countdown_message_" + identifier.identifier, countdownMessage);
     }
 
@@ -81,45 +87,46 @@ export default function WidgetCountdown(identifier) {
 
     return (
         <>
-            {widgetEdit ? <Form.Control
-                    type="text"
-                    placeholder="Countdown message"
-                    className="countdown-message"
-                    // onChange={personalCountdownMessage}
-                    onKeyUp={(t) => personalCountdownMessage(t)}
-                />
+            {widgetEdit ?
+                <Form onSubmit={personalCountdownMessage}>
+                    <InputGroup size="md" className="countdown-message">
+                        <Form.Control type="text" name="userInput"/>
+                        <Button
+                            variant="secondary"
+                            type="submit"
+                            alignRight
+                        >Add Message
+                        </Button>
+                    </InputGroup>
+                    <h3>Your message:</h3>
+                    <h3>{countdownMessage}</h3>
+                </Form>
+
                 :
-            <>
-            <Form className="countdown-date-selector" >
+                <>
+                    <Form className="countdown-date-selector" >
                 <Form.Group required className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Control type="datetime-local" onChange={handleDate} value={date} />
                 </Form.Group>
             </Form>
 
-            <div>
-                <FlipNumbers
-                    height={30}
-                    width={20}
-                    color="white"
-                    background="grey"
-                    play
-                    perspective={400}
-                    numbers={`${String(hours).padStart(2, '0')} | ${String(minutes).padStart(2, '0')} | ${String(seconds).padStart(2, '0')}`}
-                />
+            { seconds >= 0 ? //making sure we don't display anything if the timer is NaN,
+                // seconds are always set when a date is picked.
+                <>
+                    <Container className="">
+                    <ReactFitty className="digitalclock-text">{years !== 0 ? <h1>{String(years)} {years > 1 ? "Years" : "Year"}</h1> : null}</ReactFitty>
+                    <ReactFitty className="digitalclock-text">{weeks !== 0 ? <h1>{String(weeks)} {weeks > 1 ? "Weeks" : "Week"}</h1> : null}</ReactFitty>
+                    <ReactFitty className="digitalclock-text">{days !== 0 || (days === 0 && weeks > 0) ? <h1>{String(days)} {days > 1 || days === 0 ? "Days" : "Day"}</h1> : null}</ReactFitty>
+                    <ReactFitty className="digitalclock-text">{`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`}</ReactFitty>
+                    </Container>
 
-                {years !== 0 ? <h1>{String(years)} {years > 1 ? "Years" : "Year"}</h1> : null}
-                {weeks !== 0 ? <h1>{String(weeks)} {weeks > 1 ? "Weeks" : "Week"}</h1> : null}
-                {days !== 0 || (days === 0 && weeks > 0) ?
-                    <h1>{String(days)} {days > 1 || days === 0 ? "Days" : "Day"}</h1> : null}
+                    <h3><span>Until: {countdownMessage}</span></h3>
 
-                <br/>
-                <h3 style={{textAlign: "center"}}>{countdownMessage}</h3>
 
-                {countdownMessage === "Until ..." ?
-                <h6 style={{textAlign: "center"}}>Write your own custom message by pressing Edit Widgets up top</h6>:null}
-
-            </div>
-            </>
+                    {/*{countdownMessage === "your event" ?*/}
+                {/*<h6 style={{textAlign: "center"}}>Write your own custom message by pressing Edit Widgets up top</h6>:null}*/}
+                    </>:null}
+                </>
             }
         </>
     )

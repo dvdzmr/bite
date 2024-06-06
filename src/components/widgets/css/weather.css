@@ -1,6 +1,6 @@
 .weather {
     width: auto;
-    margin-top: 1%;
+    /*margin-top: 1%;*/
     text-align: center;
 
 }
@@ -19,7 +19,6 @@
 }
 
 .weather form {
-    margin-top: 1%;
     padding: 1%;
 }
 

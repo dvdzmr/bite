@@ -7,6 +7,10 @@
     text-shadow: 1px 1px 3px hsla(0, 0%, 0%, 0.3);
 }
 
+.progress-clock {
+
+}
+
 .clock-container {
     position: relative;
     overflow: hidden;

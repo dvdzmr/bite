@@ -11,14 +11,6 @@ export default function WidgetClock(identifier) {
     const [secondHand, setSecondHand] = useState(0)
     const [dayPercentage, setDayPercentage] = useState(0)
 
-    const [widgetHeight, setWidgetHeight] = useState(0);
-    let widgetWidth = useRef(null);
-
-    useEffect(() => {
-        setWidgetHeight(widgetWidth.current.offsetWidth);
-        window.addEventListener("resize", () => setWidgetHeight(widgetWidth.current.offsetWidth));
-    }, [widgetWidth.current]);
-
     useEffect(() => {
         setInterval(updateDate, 1000)
         const tabRaw = localStorage.getItem("clock_tab" + identifier.identifier);
@@ -44,13 +36,8 @@ export default function WidgetClock(identifier) {
         localStorage.setItem("clock_tab" + identifier.identifier, k)
     }
 
-    const fontScaling = {
-        fontSize: widgetHeight > 800 ? "10em" : widgetHeight < 400 ? "2em" : "4em"
-    }
-
     return (
             <Tabs
-
                 fill
                 defaultActiveKey={localStorage.getItem("clock_tab" + identifier.identifier)}
                 style={{height: "inherit"}}
@@ -59,7 +46,7 @@ export default function WidgetClock(identifier) {
                 onSelect={(k) => saveActiveTab(k)}>
 
                 <Tab eventKey="digital" title="Digital">
-                    <div ref={widgetWidth} className="digitalclock-text" style={fontScaling}>{datetime.toLocaleTimeString()}</div>
+                   <ReactFitty className="digitalclock-text">{datetime.toLocaleTimeString()}</ReactFitty>
                 </Tab>
 
 
@@ -68,9 +55,9 @@ export default function WidgetClock(identifier) {
                 </Tab>
 
 
-                {/*<Tab eventKey="progressbar" title="%">*/}
-                {/*    <ProgressBar animated now={dayPercentage} label={`${dayPercentage}%`} />*/}
-                {/*</Tab>*/}
+                <Tab eventKey="progressbar" title="%">
+                    <ProgressBar className="progress-clock" animated now={dayPercentage} label={`${dayPercentage}%`} />
+                </Tab>
             </Tabs>
 
 )

@@ -11,7 +11,6 @@ import WidgetCountdown from "./widgets/widget.countdown.jsx";
 import WidgetPhotoalbum from "./widgets/widget.photoalbum.jsx";
 import WidgetTodo from "./widgets/widget.todo.jsx";
 import {ListGroup} from "react-bootstrap";
-import {CloseButton} from "react-bootstrap";
 
 // Manually add entries from ./widgets/ here
 const widgetList = ["Weather", "Clock", "Carousel", "Notes", "CountDown", "News", "ToDo"];
@@ -39,6 +38,10 @@ export default function Widgets(id) {
     };
 
     const addSelectedWidget = (widgetName) => {
+
+        if (showCloseWidget) editWidgets()
+
+
         setShowWidget(true);
         setWidget(widgetName);
         localStorage.setItem(gridName, widgetName);
@@ -88,6 +91,9 @@ export default function Widgets(id) {
         setShowCloseWidget(!showCloseWidget);
     })
 
+    const editWidgets = () => {
+        window.dispatchEvent(new Event("editWidgets"));
+    }
 
     return (
         <>
@@ -119,7 +125,7 @@ export default function Widgets(id) {
                         <Button aria-label="Close Widget"
                                 className="widget_remove_button"
                                 variant="danger"
-                                onClick={removeWidget}>X</Button> : null }
+                                onClick={removeWidget}>CLOSE WIDGET</Button> : null }
                 </div>}
         </>
     );

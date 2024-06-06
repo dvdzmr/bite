@@ -54,7 +54,7 @@ export default function WidgetTodo(identifier) {
     return (
         <div>
             <Form onSubmit={addTask}>
-            <InputGroup size="lg" className="todo-input" >
+            <InputGroup size="md" className="todo-input" >
                 <Form.Control type="text" name="userInput"/>
                 <SplitButton
                     variant="secondary"
