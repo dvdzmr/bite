@@ -1,8 +1,15 @@
-# React + Vite
+# Bite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bite, a combination of 'byte' and bayit (בית) meaning home in Hebrew, is loosely based on the concept of 'iGoogle'. 
 
-Currently, two official plugins are available:
+iGoogle is a former Google service that offered users with a personalized homepage on which they could set and use a selection of widgets. It was finally canceled in 2013.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+Bite is my final project for the Developer Insitute bootcamp of 2023-2024.
+
+
+To run
+
+`npm run dev` on localhost:5173
+
+`npm run deploy` to deploy it to github pages, after logging in with your github account.
