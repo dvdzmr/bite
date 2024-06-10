@@ -48,7 +48,7 @@ export default function WidgetCountdown(identifier) {
         let message = localStorage.getItem("countdown_message_" + identifier.identifier);
         if (message !== null)
             setCountdownMessage(message);
-        
+
         setInterval(updateDate, 1000);
     }, []);
 
