@@ -38,15 +38,17 @@ export default function WidgetCountdown(identifier) {
         if (date !== '') localStorage.setItem("countdown" + identifier.identifier, JSON.stringify(date));
         handleInputChange(date);
 
-        let countdownMessage = localStorage.getItem("countdown_message_" + identifier.identifier);
-        if (countdownMessage !== null)
-            setCountdownMessage(countdownMessage);
 
     }, [date]);
 
     useEffect(() => {
         const countdownRaw = localStorage.getItem("countdown" + identifier.identifier);
         setDate(countdownRaw != null ? JSON.parse(countdownRaw) : []);
+
+        let message = localStorage.getItem("countdown_message_" + identifier.identifier);
+        if (message !== null)
+            setCountdownMessage(message);
+        
         setInterval(updateDate, 1000);
     }, []);
 

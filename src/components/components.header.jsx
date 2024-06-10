@@ -80,10 +80,11 @@ export default function Header() {
 
                     {/*Set grid layout*/}
                     <DropdownButton title="Grid layout" size="sm" variant="dark">
+                        <Dropdown.Item as="button" onClick={() => SetGrid(3,2,4)}>3x2x4</Dropdown.Item>
                         <Dropdown.Item as="button" onClick={() => SetGrid(2,4,3)}>2x4x3</Dropdown.Item>
                         <Dropdown.Item as="button" onClick={() => SetGrid(3,3,3)}>3x3x3</Dropdown.Item>
                         <Dropdown.Item as="button" onClick={() => SetGrid(4,2,3)}>4x2x3</Dropdown.Item>
-                        <Dropdown.Item as="button" onClick={() => SetGrid(5,1,3)}>5x1x3</Dropdown.Item>
+
                     </DropdownButton>
 
                     {/*Searchbar background*/}
